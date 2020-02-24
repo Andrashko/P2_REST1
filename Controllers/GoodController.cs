@@ -20,5 +20,16 @@ namespace REST_P2.Controllers
                 return InternalServerError(error);
             }
         }
+        public IHttpActionResult Get(int Id)
+        {
+            try
+            {
+                return Ok();
+            }
+            catch (Exception error)
+            {
+                return InternalServerError(error);
+            }
+        }
     }
 }
