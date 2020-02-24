@@ -4,16 +4,20 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using REST_P2.Models;
+
 
 namespace REST_P2.Controllers
-{
+{   
+  
     public class GoodController : ApiController
     {
+        private Database1Entities1 db = new Database1Entities1();
         public IHttpActionResult Get()
         {
             try
             {
-                return Ok();
+                return Ok(db.Good.ToArray());
             }
             catch (Exception error)
             {
@@ -24,7 +28,10 @@ namespace REST_P2.Controllers
         {
             try
             {
-                return Ok();
+                var good = db.Good.Find(Id);
+                if (good == null)
+                    return NotFound();
+                return Ok(good);
             }
             catch (Exception error)
             {
@@ -32,11 +39,13 @@ namespace REST_P2.Controllers
             }
         }
 
-        public IHttpActionResult Delete(int Id)
+        public IHttpActionResult Post([FromBody] Good good)
         {
             try
             {
-                return Ok();
+                var newGood = db.Good.Add(good);
+                db.SaveChanges();
+                return Ok(newGood);
             }
             catch (Exception error)
             {
